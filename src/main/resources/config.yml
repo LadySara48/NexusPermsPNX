@@ -1,0 +1,16 @@
+---
+
+# Database Configuration Mode
+# Determines which database system to use for storing permission data
+DBMode: H2  # Options: H2 (file-based), MySQL (remote server)
+
+# MySQL Database Connection Settings
+# Used when DBMode is set to MySQL
+MySQL:
+  Host: "127.0.0.1"      # MySQL server IP address or hostname
+  Port: 3306              # MySQL server port (default: 3306)
+  Username: "Nexus"       # Database user with appropriate permissions
+  Password: "123456"      # Database user password
+  Database: "NexusPerms"  # Name of the database to store permission data
+
+...

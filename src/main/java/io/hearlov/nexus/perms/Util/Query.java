@@ -1,0 +1,11 @@
+package io.hearlov.nexus.perms.Util;
+
+public class Query{
+
+    public static final String query = "CREATE TABLE IF NOT EXISTS nexusperms (\n" +
+            "    name VARCHAR(255) PRIMARY KEY,\n" +
+            "    `group` VARCHAR(255) NOT NULL,\n" +
+            "    endtms BIGINT NOT NULL\n" +
+            ")";
+
+}

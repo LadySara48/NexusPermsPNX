@@ -1,0 +1,24 @@
+---
+
+Default:
+  Priority: 0
+  NameTag: "§8{player}"
+  ChatFormat: "§8[USER] §f{player} §7> {message}"
+  Permissions: []
+
+Admin:
+  Priority: 255
+  NameTag: "§6{player}"
+  ChatFormat: "§6[ADMIN] §f{player} §7> §d{message]"
+  Permissions:
+    - nexus.perms.addgroup
+    - nexus.perms.remgroup
+    - nexus.perms.groups
+    - nexus.perms.givegroup
+    - nexus.npc.npc
+    - nexus.npc.create
+    - nexus.npc.edit
+    - nexus.npc.delete
+    - nexus.npc.dispatch
+
+...
