@@ -1,7 +1,11 @@
 package io.hearlov.nexus.perms.Scheduler;
 
-public class TimeControlTask{
+import cn.nukkit.scheduler.Task;
 
+public class TimeControlTask extends Task{
 
+    @Override
+    public void onRun(int currentTick) {
 
+    }
 }
