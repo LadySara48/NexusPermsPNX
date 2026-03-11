@@ -3,6 +3,9 @@ package io.hearlov.nexus.perms.Cache;
 import cn.nukkit.Player;
 import io.hearlov.nexus.perms.Group.Group;
 import io.hearlov.nexus.perms.NexusPerms;
+import io.hearlov.nexus.perms.Util.Query;
+import io.hearlov.nexus.perms.Util.StringReplacer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,7 +29,7 @@ public class PlayerCache{
     public static void setGroup(Player player, Group group, int endtime){
         long endtms = endtime <= 0 ? 0 : ((System.currentTimeMillis() / 1000) + endtime);
 
-        NexusPerms.getInstance().getDb().addTask("MERGE INTO nexusperms (name, `group`, endtms) VALUES (?, ?, ?)", new Object[]{player.getName(), group.getName(), endtms}, null);
+        NexusPerms.getInstance().getDb().addTask(Query.mergeGroup, new Object[]{player.getName(), group.getName(), endtms}, null);
         permissionCache.put(player.getName(), group);
         if(endtms != 0) timeCache.put(player.getName(), endtms);
 
@@ -36,7 +39,7 @@ public class PlayerCache{
     public static void setGroup(String playerName, Group group, int endtime){
         long endtms = endtime <= 0 ? 0 : ((System.currentTimeMillis() / 1000) + endtime);
 
-        NexusPerms.getInstance().getDb().addTask("MERGE INTO nexusperms (name, `group`, endtms) VALUES (?, ?, ?)", new Object[]{playerName, group.getName(), endtms}, null);
+        NexusPerms.getInstance().getDb().addTask(Query.mergeGroup, new Object[]{playerName, group.getName(), endtms}, null);
         permissionCache.put(playerName, group);
         if(endtms != 0) timeCache.put(playerName, endtms);
 
@@ -50,7 +53,7 @@ public class PlayerCache{
 
     public static void registerPlayer(Player player){
         AtomicReference<Map<String, Group>> cch = new AtomicReference<>();
-        NexusPerms.getInstance().getDb().addTask("SELECT * FROM nexusperms WHERE name = ?", new Object[]{player.getName()}, (List<Map<String, Object>> rs) -> {
+        NexusPerms.getInstance().getDb().addTask(Query.getPlayerGroup, new Object[]{player.getName()}, (List<Map<String, Object>> rs) -> {
             Map<String, Group> map = new HashMap<>();
             if(!rs.isEmpty()){
                 Map<String, Object> obj = rs.getFirst();
@@ -75,18 +78,26 @@ public class PlayerCache{
             for(Map.Entry<String, Group> entry : cch.get().entrySet()){
                 if(entry.getValue() == null){
                     setGroup(entry.getKey(), GroupCache.getDefaultGroup(), 0);
+                    setPlayerNameTag(entry.getKey(), GroupCache.getDefaultGroup());
                 }else{
                     permissionCache.putAll(cch.get());
                     addPlayerAttachments(entry.getKey(), entry.getValue());
+                    setPlayerNameTag(entry.getKey(), entry.getValue());
                 }
             }
         });
     }
 
-    public static void addPlayerAttachments(String name, Group permissions){
+    public static void addPlayerAttachments(@NotNull String name, @NotNull Group permissions){
         Player player = NexusPerms.getInstance().getServer().getPlayer(name);
         if(player == null) return;
         PlayerAttachments.playerAttachmentsAdd(player, permissions);
+    }
+
+    public static void setPlayerNameTag(@NotNull String name, @NotNull Group group){
+        Player player = NexusPerms.getInstance().getServer().getPlayer(name);
+        if(player == null) return;
+        player.setNameTag(StringReplacer.getFormattedNameTag(player, group));
     }
 
     /*@SuppressWarnings("unused")

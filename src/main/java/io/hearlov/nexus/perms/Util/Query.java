@@ -8,4 +8,8 @@ public class Query{
             "    endtms BIGINT NOT NULL\n" +
             ")";
 
+    public static final String getPlayerGroup = "SELECT * FROM nexusperms WHERE name = ?";
+
+    public static final String mergeGroup = "MERGE INTO nexusperms (name, `group`, endtms) VALUES (?, ?, ?)";
+
 }

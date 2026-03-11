@@ -9,7 +9,6 @@ import io.hearlov.nexus.db.cache.NexusDB;
 import io.hearlov.nexus.perms.Cache.GroupCache;
 import io.hearlov.nexus.perms.Commands.GiveGroupCommand;
 import io.hearlov.nexus.perms.EventListener.PlayerEvent;
-import io.hearlov.nexus.perms.Scheduler.TickQueueTask;
 import io.hearlov.nexus.perms.Util.Query;
 
 import java.util.ArrayList;
