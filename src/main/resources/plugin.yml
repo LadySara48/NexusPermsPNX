@@ -1,6 +1,6 @@
 name: NexusPerms
 main: io.hearlov.nexus.perms.NexusPerms
-version: "1.0.0"
+version: "1.0.7"
 api: "2.0.0"
 description: "PowerNukkitX H2 and MySQL based Permissions System"
 author: "Hearlov"
