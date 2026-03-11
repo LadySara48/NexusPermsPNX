@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class PlayerAttachments{
 
-    private static Map<String, List<PermissionAttachment>> perms = new HashMap<>();
+    private static final Map<String, List<PermissionAttachment>> perms = new HashMap<>();
 
     public static void playerAttachmentsAdd(Player player, Group group){
         List<PermissionAttachment> permAtt = new ArrayList<>();

@@ -7,7 +7,6 @@ import cn.nukkit.utils.Config;
 import io.hearlov.nexus.db.Main;
 import io.hearlov.nexus.db.cache.NexusDB;
 import io.hearlov.nexus.perms.Cache.GroupCache;
-import io.hearlov.nexus.perms.Cache.PlayerCache;
 import io.hearlov.nexus.perms.Commands.GiveGroupCommand;
 import io.hearlov.nexus.perms.EventListener.PlayerEvent;
 import io.hearlov.nexus.perms.Scheduler.TickQueueTask;
@@ -47,7 +46,7 @@ public class NexusPerms extends PluginBase{
 
         init();
         GroupCache.setup(tagconfig);
-        this.getServer().getScheduler().scheduleDelayedRepeatingTask(new TickQueueTask(), 100, 15);
+        //this.getServer().getScheduler().scheduleDelayedRepeatingTask(new TickQueueTask(), 100, 15);
     }
 
     public NexusDB getDb(){

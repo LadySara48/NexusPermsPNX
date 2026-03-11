@@ -6,11 +6,12 @@ import io.hearlov.nexus.perms.NexusPerms;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
+//import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PlayerCache{
 
-    private static final Queue<Map<String, Group>> queue = new ConcurrentLinkedQueue<>();
+    //private static final Queue<Map<String, Group>> queue = new ConcurrentLinkedQueue<>();
     public static final Map<String, Group> permissionCache = new ConcurrentHashMap<>();
     public static final Map<String, Long> timeCache = new ConcurrentHashMap<>();
 
@@ -33,7 +34,6 @@ public class PlayerCache{
     }
 
     public static void setGroup(String playerName, Group group, int endtime){
-        System.out.println("setGroup çalıştı");
         long endtms = endtime <= 0 ? 0 : ((System.currentTimeMillis() / 1000) + endtime);
 
         NexusPerms.getInstance().getDb().addTask("MERGE INTO nexusperms (name, `group`, endtms) VALUES (?, ?, ?)", new Object[]{playerName, group.getName(), endtms}, null);
@@ -49,6 +49,7 @@ public class PlayerCache{
     }
 
     public static void registerPlayer(Player player){
+        AtomicReference<Map<String, Group>> cch = new AtomicReference<>();
         NexusPerms.getInstance().getDb().addTask("SELECT * FROM nexusperms WHERE name = ?", new Object[]{player.getName()}, (List<Map<String, Object>> rs) -> {
             Map<String, Group> map = new HashMap<>();
             if(!rs.isEmpty()){
@@ -57,7 +58,7 @@ public class PlayerCache{
 
                 if(endtms != 0 && endtms < System.currentTimeMillis() / 1000){
                     map.put(player.getName(), null);
-                    queue.offer(map);
+                    cch.set(map);
                     return;
                 }
 
@@ -68,8 +69,17 @@ public class PlayerCache{
             }else{
                 map.put(player.getName(), null);
             }
-            //System.out.println(map);
-            queue.offer(map);
+
+            cch.set(map);
+        }, (rs) -> { //New NexusDB MainThreadPool
+            for(Map.Entry<String, Group> entry : cch.get().entrySet()){
+                if(entry.getValue() == null){
+                    setGroup(entry.getKey(), GroupCache.getDefaultGroup(), 0);
+                }else{
+                    permissionCache.putAll(cch.get());
+                    addPlayerAttachments(entry.getKey(), entry.getValue());
+                }
+            }
         });
     }
 
@@ -79,7 +89,8 @@ public class PlayerCache{
         PlayerAttachments.playerAttachmentsAdd(player, permissions);
     }
 
-    public static void tickQueue(){
+    /*@SuppressWarnings("unused")
+    public static void tickQueue(){ //Old MainThreadPool
         while(!queue.isEmpty()){
 
             Map<String, Group> poll = queue.poll();
@@ -94,9 +105,7 @@ public class PlayerCache{
                 }
             }
 
-            //System.out.println(permissionCache);
-
         }
-    }
+    }*/
 
 }

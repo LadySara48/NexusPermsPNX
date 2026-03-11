@@ -45,6 +45,7 @@ public class GroupCache{
         return groupCache.get("Default");
     }
 
+    @SuppressWarnings("unused")
     public static Map<String, Group> getGroupCache() {
         return groupCache;
     }
