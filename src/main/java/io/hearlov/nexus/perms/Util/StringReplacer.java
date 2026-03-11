@@ -24,7 +24,7 @@ public class StringReplacer{
     }
 
     public static String getFormattedNameTag(Player player){
-        String format = PlayerCache.getGroup(player.getName()).getChatFormat();
+        String format = PlayerCache.getGroup(player.getName()).getNameTag();
 
         Map<String, String> placeholders = new HashMap<>();
         placeholders.put("{player}", player.getName());
@@ -37,7 +37,7 @@ public class StringReplacer{
     }
 
     public static String getFormattedNameTag(Player player, Group group){
-        String format = group.getChatFormat();
+        String format = group.getNameTag();
 
         Map<String, String> placeholders = new HashMap<>();
         placeholders.put("{player}", player.getName());

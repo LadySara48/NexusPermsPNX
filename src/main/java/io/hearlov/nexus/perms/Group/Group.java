@@ -1,6 +1,6 @@
 package io.hearlov.nexus.perms.Group;
 
-import java.util.Arrays;
+//import java.util.Arrays;
 
 public class Group{
 

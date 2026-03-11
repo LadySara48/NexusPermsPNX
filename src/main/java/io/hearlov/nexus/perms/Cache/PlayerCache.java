@@ -100,8 +100,7 @@ public class PlayerCache{
         player.setNameTag(StringReplacer.getFormattedNameTag(player, group));
     }
 
-    /*@SuppressWarnings("unused")
-    public static void tickQueue(){ //Old MainThreadPool
+    /*public static void tickQueue(){
         while(!queue.isEmpty()){
 
             Map<String, Group> poll = queue.poll();

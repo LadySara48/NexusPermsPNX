@@ -13,6 +13,7 @@ import io.hearlov.nexus.perms.NexusPerms;
 import cn.nukkit.event.player.PlayerChatEvent;
 import io.hearlov.nexus.perms.Util.StringReplacer;
 
+@SuppressWarnings("unused")
 public class PlayerEvent implements Listener{
 
     @EventHandler

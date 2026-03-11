@@ -18,7 +18,7 @@ public class GiveGroupCommand extends Command{
     public boolean execute(CommandSender sender, String label, String[] args){
         if(args.length != 2) return false;
 
-        Player p = (Player) sender.getServer().getPlayer(args[0]);
+        Player p = sender.getServer().getPlayer(args[0]);
         Group group = GroupCache.getGroupAsNullable(args[1]);
 
         if (group == null) return false;
