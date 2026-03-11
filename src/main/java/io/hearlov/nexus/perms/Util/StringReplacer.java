@@ -23,6 +23,7 @@ public class StringReplacer{
         return format;
     }
 
+    @SuppressWarnings("unused")
     public static String getFormattedNameTag(Player player){
         String format = PlayerCache.getGroup(player.getName()).getNameTag();
 
